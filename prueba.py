@@ -34,7 +34,8 @@ class App(ttk.Frame):
         for ingrediente in recetaPrinc['listaDeIngredientes']:
             ttk.Label(frame2, text=f"{ingrediente}, ").grid()
 
-        ttk.Label(frame2, text="preparacion: " ).grid()
+        ttk.Label(frame2, text=f"preparacion: {recetaPrinc['preparacion']}" ).grid()
+        
       
 
        
