@@ -22,22 +22,22 @@ class App(ttk.Frame):
         frame1.columnconfigure(0, weight=1) # configura columna 0 (default)
         frame1.rowconfigure(0, weight=1) # configura fila 0 (default)
         ttk.Label(frame1, text="Recetario",background="lightgreen",width="200",anchor="center").grid(padx=5, pady=5, sticky=tk.N)  # crea label y la inserta
-       
+        
+        recetaPrinc=receta.Receta.mostrarUnaRecetaDiaria()
+        print(recetaPrinc)
 
         frame2 = ttk.Frame(self, borderwidth=2, relief="groove")
         frame2.grid(row=2, column=1, sticky=tk.NSEW)
         ttk.Label(frame2, text="RECETA DEL DIA",background="green",width="50",anchor="center").grid()
-        ttk.Label(frame2, text="PIzza",background="lightgreen",anchor="nw").grid()
-        
-        ttk.Label(frame2, text="Ingredientes:\n"+
-        "\tpapa\n"+
-        "\tqueso\n"+
-        "\tsal").grid(row=2, column=0)
-        ttk.Label(frame2, text="preparacion: " ).grid(row=3, column=0)
-        #frameE=ttk.Frame(self,borderwidth=1,relief="groove")
-        #frameE.grid(row=2,column=1,sticky=tk.NSEW)
-        #ttk.Label(frameE, text="marco 3").grid()
-        #ttk.Label(frameE, text="marco 3").grid()
+        ttk.Label(frame2, text=recetaPrinc['nombre'],background="lightgreen",anchor="nw").grid()
+        ttk.Label(frame2, text="ingredientes:").grid()
+        for ingrediente in recetaPrinc['listaDeIngredientes']:
+            ttk.Label(frame2, text=f"{ingrediente}, ").grid()
+
+        ttk.Label(frame2, text="preparacion: " ).grid()
+      
+
+       
 
 
         frame4 = ttk.Frame(self, borderwidth=1, relief="groove")
@@ -70,7 +70,7 @@ class App(ttk.Frame):
         columnas = ('Receta', 'ingredientes', 'etiquetas','Tpreparacion','Tcoccion')
         
         
-        recetaPrinc=receta.Receta.mostrarUnaRecetaDiaria()
+   
         
         frame5.tabla = ttk.Treeview(self, columns=columnas,
                                   show='headings',
