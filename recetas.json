@@ -1,0 +1,4 @@
+[{"nombre": "milanesa", "preparacion": {"1": "calentar prepizza", "2": "poner queso", "3": "colocar al horno"}, "tiempoDePrep": 30, "tiempoDeCocc": 15, "fechaDeCreacion": "30/04/2023", "etiquetas": "aqui van etiquetas", "imagen": "aqui va una imagen", "esFavorito": "True", "listaDeIngredientes": ["queso", "salsa", "prepizza", "jamon"]},
+ {"nombre": "papa con queso", "preparacion": {"1": "hervir papas", "2": "poner queso", "3": "fritar"}, "tiempoDePrep": 60, "tiempoDeCocc": 20, "fechaDeCreacion": "20/04/2023", "etiquetas": "aqui van etiquetas", "imagen": "aqui va una imagen", "esFavorito": "True", "listaDeIngredientes": ["queso", "papa", "sal", "jamon"]},
+ {"nombre": "pizza", "preparacion": "ponerle el queso", "listaIngred": ["zapallo", "milanesa"], "tiempoPrep": 30, "tiempoCocc": 5, "fechaDeCreacion": "10/05/2001"}
+]
