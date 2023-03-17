@@ -87,8 +87,14 @@ class App(ttk.Frame):
         
         # generar los datos artificiales
         contacts = []
-        for n in range(1, 30):
-            contacts.append((f'MILANESA', f'[SALSA,QUESO,PAN RALLADO] ',f'[rico,facil]', f'{n}MIN',f'{n}MINCocc'))
+        cantRecetas=len(receta.Receta.listaDeRecetas())
+        for x in receta.Receta.listaDeRecetas():
+            nombre=x['nombre']
+            ingredientes=x['listaDeIngredientes']
+            etiquetas=x['etiquetas']
+            tiempoPrep=x['tiempoDePrep']
+            tiempoCocc=x['tiempoDeCocc']
+            contacts.append((f'{nombre}', f'{ingredientes} ',f'{etiquetas}', f'{tiempoPrep}MIN', f'{tiempoCocc}MIN'))
 
         # agregar datos al treeview
         for contact in contacts:

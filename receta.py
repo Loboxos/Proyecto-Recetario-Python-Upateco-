@@ -35,6 +35,10 @@ class Receta:
 
     def eliminarUnaReceta(self):
         pass
+    def listaDeRecetas():
+        with open("recetas.json")as fo:
+            recetas=json.load(fo)
+        return recetas
 
     def mostrarUnaRecetaDiaria():
         with open("recetas.json")as fo:
