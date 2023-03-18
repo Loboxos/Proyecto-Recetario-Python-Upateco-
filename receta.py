@@ -17,9 +17,9 @@ class Receta:
         r1={
         "nombre":self.nombre,
         "preparacion":self.preparacion,
-        "listaIngred":self.ListaIngred,
-        "tiempoPrep":self.tiempoPrep,
-        "tiempoCocc":self.tiempoCocc,
+        "listaDeIngredientes":self.ListaIngred,
+        "tiempoDePrep":self.tiempoPrep,
+        "tiempoDeCocc":self.tiempoCocc,
         "fechaDeCreacion":self.fechaDeCreacion
          }
         

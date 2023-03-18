@@ -100,7 +100,7 @@ class App(ttk.Frame):
         for contact in contacts:
             frame5.tabla.insert('', tk.END, values=contact)
 
-        ttk.Button(self, text="*****MAS OPCIONES******",command=self.abrir_ventana).grid(row=7,column=1,columnspan=2,sticky=tk.S)
+        tk.Button(self, text="*****MAS OPCIONES******",bg='CadetBlue',command=self.abrir_ventana).grid(row=7,column=1,columnspan=2,sticky=tk.S)
     
     def abrir_ventana(self):
         # creamos la ventana secundaria
@@ -113,6 +113,7 @@ class App(ttk.Frame):
 class Secundaria(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
+        self.parent = parent
         parent.title("Mas opciones")
         #parent.geometry("450x200+180+100")
         self.grid(sticky=(tk.N, tk.S, tk.E, tk.W))
@@ -120,12 +121,104 @@ class Secundaria(ttk.Frame):
         parent.rowconfigure(0, weight=1)
         parent.iconbitmap('img\chef.ico')
         parent.resizable(False, False)
-        ttk.Button(self, text="Cerrar",width=100, command=parent.destroy).grid()
+
         ttk.Button(self, text="Buscar Receta",width=100).grid() 
-        ttk.Button(self, text="Agregar Receta",width=100).grid()
+        ttk.Button(self, text="Agregar Receta",command=self.abrir_ventana2,width=100).grid()
         ttk.Button(self, text="Eliminar receta",width=100).grid() 
         ttk.Button(self, text="modificar receta",width=100).grid()
+        ttk.Button(self, text="Cerrar",width=100, command=parent.destroy).grid()
+        
+    def abrir_ventana2(self):
+        # creamos la ventana secundaria
+        # como padre indicamos la ventana principal
+        toplevel = tk.Toplevel(self.parent)
+        # agregamos el frame (Secundaria) a la ventana (toplevel)
+        AgregarReceta(toplevel).grid()
 
+class AgregarReceta(ttk.Frame):
+    import receta
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.nombreR=tk.StringVar()
+        self.ingredientesR=tk.StringVar()
+        self.preparacionR=tk.StringVar()
+        self.tiempoPrepR=tk.StringVar()
+        self.tiempoCoccR=tk.StringVar()
+
+
+        parent.title("Ingresar nueva Receta")
+        parent.iconbitmap('img\chef.ico')
+        #parent.resizable(False, False)
+        
+        parent.geometry("300x200")
+        parent.resizable(0, 0)
+
+        # configure the grid
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=5)
+
+        self.create_widgets()
+
+   
+    def guardar_datos(self):
+        nombre=self.nombreR.get()
+        print(self.ingredientesR.get())
+        ingredientes=self.ingredientesR.get()
+        listaIngredientes=ingredientes.split(",")
+        print(listaIngredientes)
+        preparacion=self.preparacionR.get()
+        tiempoC=self.tiempoCoccR.get()
+        tiempoP=self.tiempoPrepR.get()
+        recetas=receta.Receta(nombre,preparacion,tiempoC,tiempoP,"10/05/2001","rico,nutritivo",True,"imagen",listaIngredientes)
+        recetas.añadirUnaNuevaReceta()
+        
+
+    def create_widgets(self):
+        # Ingresar comida
+        username_label = ttk.Label(self, text="Nombre de la receta:")
+        username_label.grid(column=0, row=0, sticky=tk.W, padx=5, pady=5)
+    
+        
+        
+
+        username_entry = ttk.Entry(self,textvariable=self.nombreR)
+        username_entry.grid(column=1, row=0, sticky=tk.E, padx=5, pady=5)
+        #print(self.nombreR)
+        # ingredientes
+        password_label = ttk.Label(self, text="Ingredientes:")
+        password_label.grid(column=0, row=1, sticky=tk.W, padx=5, pady=5)
+
+        password_entry = ttk.Entry(self,textvariable=self.ingredientesR)
+        password_entry.grid(column=1, row=1, sticky=tk.E, padx=5, pady=5)
+
+               # preparacion
+        password_label = ttk.Label(self, text="preparacion:")
+        password_label.grid(column=0, row=2, sticky=tk.W, padx=5, pady=5)
+
+
+        password_entry = ttk.Entry(self,textvariable=self.preparacionR)
+        password_entry.grid(column=1, row=2, sticky=tk.E, padx=5, pady=5)
+
+               # tiempo preparacion
+        password_label = ttk.Label(self, text="tiempo de preparacion:")
+        password_label.grid(column=0, row=3, sticky=tk.W, padx=5, pady=5)
+
+        password_entry = ttk.Entry(self,textvariable=self.tiempoPrepR)
+        password_entry.grid(column=1, row=3, sticky=tk.E, padx=5, pady=5)
+
+               # tiempo coccion
+        password_label = ttk.Label(self, text="tiempo de coccion:")
+        password_label.grid(column=0, row=4, sticky=tk.W, padx=5, pady=5)
+
+        password_entry = ttk.Entry(self ,textvariable=self.tiempoCoccR)
+        password_entry.grid(column=1, row=4, sticky=tk.E, padx=5, pady=5)
+
+        # login button
+        login_button = ttk.Button(self, text="Agregar",command=self.guardar_datos)
+        login_button.grid(column=1, row=5, sticky=tk.E, padx=5, pady=5)
+        
+   
+        
 
 
 
