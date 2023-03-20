@@ -33,8 +33,29 @@ class Receta:
     def modificarUnaReceta(self):
         pass
 
-    def eliminarUnaReceta(self):
-        pass
+    def eliminarUnaReceta(nombreReceta):
+        with open("recetas.json",'r') as fo:
+            recetas = json.load(fo)
+            #print(recetas)
+            print("linea 40")
+            for rec in recetas:
+               if rec["nombre"]==nombreReceta:
+                recetas.remove(rec)
+                print("receta eliminada")
+                
+                #print(recetas)
+               else:
+                print("receta no encontrada")
+            
+        with open("recetas.json", "w") as fo:
+            json.dump(recetas, fo)
+            #nombreReceta="pizza"
+            #if recetas['nombre']==nombreReceta:
+             #   print(recetas['nombre'])
+        
+
+
+    
     def listaDeRecetas():
         with open("recetas.json")as fo:
             recetas=json.load(fo)
