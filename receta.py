@@ -30,9 +30,18 @@ class Receta:
         with open("recetas.json", "w") as fo:
             json.dump(recetas, fo)
             
-    def modificarUnaReceta(self):
-        pass
-
+    def modificarUnaReceta(nombreReceta,nuevoNombre,ingr,preparacion):
+        with open("recetas.json",'r') as fo:
+            recetas = json.load(fo)
+            for rec in recetas:
+               if rec["nombre"]==nombreReceta:
+                  rec["nombre"]=nuevoNombre
+                  rec["listaDeIngredientes"]=ingr
+                  rec["preparacion"]=preparacion
+               else:
+                print("receta no encontrada")
+        with open("recetas.json", "w") as fo:
+            json.dump(recetas, fo)
     def eliminarUnaReceta(nombreReceta):
         with open("recetas.json",'r') as fo:
             recetas = json.load(fo)
@@ -60,6 +69,15 @@ class Receta:
         with open("recetas.json")as fo:
             recetas=json.load(fo)
         return recetas
+    
+    def mostrarReceta(nombre):
+        with open("recetas.json")as fo:
+            recetas=json.load(fo)
+        for receta in recetas:
+            if receta["nombre"]==nombre:
+                recetaD=receta
+        return recetaD
+        #return recetas[random.choice(recetas)]
 
     def mostrarUnaRecetaDiaria():
         with open("recetas.json")as fo:

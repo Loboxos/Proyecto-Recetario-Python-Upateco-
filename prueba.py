@@ -50,7 +50,11 @@ class App(ttk.Frame):
         frame4.grid(row=2, column=2, sticky=tk.NSEW)
         frame4.columnconfigure(0, weight=0)
         frame4.rowconfigure(0, weight=0)
-        self.imagen = tk.PhotoImage(file="img/pizza.gif")
+
+        
+        comida=recetaPrinc['nombre']
+        comida=comida.replace(" ","")
+        self.imagen = tk.PhotoImage(file="img/"+comida+".gif")
         ttk.Label(frame4, image=self.imagen,background="lightgreen").pack(anchor="center")
         
        
@@ -112,9 +116,66 @@ class App(ttk.Frame):
         self.frame5=frame5
         self.label = tk.Label(self, text='EPL Predictions')
 
-        tk.Button(self, text="*****ACTUALIZAR******",bg='CadetBlue').grid(row=7,column=1,sticky=tk.S)
+        tk.Button(self, text="*****ACTUALIZAR******",bg='CadetBlue',command=self.actualizarTabla).grid(row=7,column=1,sticky=tk.S)
         tk.Button(self, text="*****MAS OPCIONES******",bg='CadetBlue',command=self.abrir_ventana).grid(row=7,column=2,sticky=tk.S)
+    
+    
+    def actualizarTabla(self):
+        frame5=self.frame5 = ttk.Frame(self, borderwidth=1, relief="groove")
+        frame5.grid(row=4,column=1,columnspan=2, sticky=tk.NSEW)
+        frame5.columnconfigure(0, weight=2)
+        frame5.rowconfigure(0, weight=2)
+        ttk.Label(frame5, text="*****MAS RECETAS******",background="green",width="100",anchor="center").grid(row=3,column=1,columnspan=2,sticky=tk.S)
+
+
+        # definimos 2 columnas 1: tabla, 2: barra de desplazamiento
+       
+        frame5.columnconfigure(1, weight=1)
+        frame5.columnconfigure(2, weight=1) # wight=0 no cambia de tamaño nunca
+        frame5.rowconfigure(1, weight=1)
+        frame5.rowconfigure(2, weight=1)
+        frame5.rowconfigure(3, weight=1)
+        frame5.columnconfigure(3, weight=1) # wight=0 no cambia de tamaño nunca
+        frame5.rowconfigure(4, weight=1)
+        frame5.columnconfigure(4, weight=1) # wight=0 no cambia de tamaño nunca
+
+
+        # definimos las columnas de la tabla
+        columnas = ('Receta', 'ingredientes', 'etiquetas','Tpreparacion','Tcoccion')
+        
+        
    
+        
+        frame5.tabla = ttk.Treeview(self, columns=columnas,
+                                  show='headings',
+                                  selectmode="browse") # sin multi-seleccion
+        frame5.tabla.grid(row=5, column=1,columnspan=2, sticky=(tk.NSEW))
+        
+
+        # definimos los encabezados que se muestran
+        frame5.tabla.heading('Receta', text='Receta')
+        frame5.tabla.heading('ingredientes', text='ingredientes')
+        frame5.tabla.heading('etiquetas', text='etiquetas')
+        frame5.tabla.heading('Tpreparacion', text='Tpreparacion')
+        frame5.tabla.heading('Tcoccion', text='Tcoccion')
+ 
+        #self.frame5=frame5
+        
+        # generar los datos artificiales
+        contacts = []
+        cantRecetas=len(receta.Receta.listaDeRecetas())
+        for x in receta.Receta.listaDeRecetas():
+            nombre=x['nombre']
+            ingredientes=x['listaDeIngredientes']
+            etiquetas=x['etiquetas']
+            tiempoPrep=x['tiempoDePrep']
+            tiempoCocc=x['tiempoDeCocc']
+            contacts.append((f'{nombre}', f'{ingredientes} ',f'{etiquetas}', f'{tiempoPrep}MIN', f'{tiempoCocc}MIN'))
+
+        # agregar datos al treeview
+        for contact in contacts:
+            frame5.tabla.insert('', tk.END, values=contact)
+
     
    # def update(self):
     #   self.config(text=str(random.random()))
@@ -143,8 +204,13 @@ class Secundaria(ttk.Frame):
         ttk.Button(self, text="Buscar Receta",width=100).grid() 
         ttk.Button(self, text="Agregar Receta",command=self.abrir_ventana2,width=100).grid()
         ttk.Button(self, text="Eliminar receta",command=self.abrir_ventana3,width=100).grid() 
-        ttk.Button(self, text="modificar receta",width=100).grid()
+        ttk.Button(self, text="modificar receta",command=self.abrir_ventana4,width=100).grid()
         ttk.Button(self, text="Cerrar",width=100, command=parent.destroy).grid()
+    
+    def abrir_ventana4(self):
+        toplevel = tk.Toplevel(self.parent)
+        ModificarReceta(toplevel).grid()
+
     def abrir_ventana3(self):
         toplevel = tk.Toplevel(self.parent)
         EliminarReceta(toplevel).grid()
@@ -155,6 +221,97 @@ class Secundaria(ttk.Frame):
         toplevel = tk.Toplevel(self.parent)
         # agregamos el frame (Secundaria) a la ventana (toplevel)
         AgregarReceta(toplevel).grid()
+
+class ModificarReceta(ttk.Frame):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.nombreRE=tk.StringVar()
+        self.nombreNuevo=tk.StringVar()
+        self.ingredienteNuevo=tk.StringVar()
+        self.preparacionNuevo=tk.StringVar()
+        self.tiempoPropRNuevo=tk.StringVar()
+        self.tiempoCoccRnuevo=tk.StringVar()
+        # self.ingredientesR=tk.StringVar()
+        # self.preparacionR=tk.StringVar()
+        # self.tiempoPrepR=tk.StringVar()
+        # self.tiempoCoccR=tk.StringVar()
+        
+
+        parent.title("Modificar una Receta")
+        parent.iconbitmap('img\chef.ico')
+        #parent.resizable(False, False)
+        
+        parent.geometry("1200x400")
+        parent.resizable(0, 0)
+
+        # configure the grid
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=5)
+
+        self.create_widgets()
+        ttk.Button(self,text="cerrar",command=parent.destroy).grid(column=0,row=5)
+    
+    def create_widgets(self):
+        # Ingresar comida
+        username_label = ttk.Label(self, text="Ingrese nombre de la receta a modificar:")
+        username_label.grid(column=0 , row=0, sticky=tk.W, padx=5, pady=5)
+
+        username_entry = ttk.Entry(self,textvariable=self.nombreRE)
+        username_entry.grid(column=1, row=0, sticky=tk.E, padx=5, pady=5)
+        
+        
+        # login button
+        login_button = ttk.Button(self, text="Buscar",command=self.mostrar_datos)
+        #messagebox.showinfo(title="Actualizacion",message="se elimino la receta correctamente")
+        login_button.grid(column=1, row=5, sticky=tk.E, padx=5, pady=5)
+      
+    def mostrar_datos(self):
+        nombre=self.nombreRE.get()
+        recet=receta.Receta.mostrarReceta(nombre)
+        print(recet)
+    
+        frame2 = ttk.Frame(self, borderwidth=2, relief="groove")
+        frame2.grid(row=2, column=1, sticky=tk.NSEW)
+        ttk.Label(frame2, text="RECETA",background="green",width="50",anchor="center").grid()
+        ttk.Label(frame2, text=recet['nombre'],background="lightgreen",anchor="nw").grid()
+        
+        username_label = ttk.Label(frame2, text="Nuevo nombre de Receta")
+        username_label.grid(column=1, row=1, sticky=tk.W, padx=5, pady=5)
+
+        username_entry = ttk.Entry(frame2,textvariable=self.nombreNuevo)
+        username_entry.grid(column=2, row=1, sticky=tk.E, padx=5, pady=5)
+
+        username_label = ttk.Label(frame2, text="Ingredientes nuevos")
+        username_label.grid(column=1, row=2, sticky=tk.W, padx=5, pady=5)
+
+        username_entry = ttk.Entry(frame2,textvariable=self.ingredienteNuevo)
+        username_entry.grid(column=2, row=2, sticky=tk.E, padx=5, pady=5)
+
+        username_label = ttk.Label(frame2, text="preparacion")
+        username_label.grid(column=1, row=5, sticky=tk.W, padx=5, pady=5)
+
+        username_entry = ttk.Entry(frame2,textvariable=self.preparacionNuevo)
+        username_entry.grid(column=2, row=5, sticky=tk.E, padx=5, pady=5)
+        
+        ttk.Label(frame2, text="ingredientes:").grid()
+        for ingrediente in recet['listaDeIngredientes']:
+            ttk.Label(frame2, text=f"{ingrediente}, ").grid()
+
+        ttk.Label(frame2, text=f"preparacion: {recet['preparacion']}" ).grid()
+ # login button
+        login_button = ttk.Button(self, text="Modificar",command=self.guardar_datos)
+        #messagebox.showinfo(title="Actualizacion",message="se elimino la receta correctamente")
+        login_button.grid(column=1, row=5, sticky=tk.E, padx=5, pady=5)
+
+
+    def guardar_datos(self):
+        nombreRe=self.nombreRE.get()
+        nombreNuevo=self.nombreNuevo.get()
+        ingredientes=self.ingredienteNuevo.get()
+        listaIngredientes=ingredientes.split(",")
+        preparacion=self.preparacionNuevo.get()
+        nombreRe=nombreRe.lower()        
+        receta.Receta.modificarUnaReceta(nombreRe,nombreNuevo,listaIngredientes,preparacion)
 
 
 class EliminarReceta(ttk.Frame):
@@ -206,10 +363,6 @@ class EliminarReceta(ttk.Frame):
         
        
         
-        
-
-
-
         
 
 class AgregarReceta(ttk.Frame):
@@ -347,12 +500,16 @@ class AgregarReceta(ttk.Frame):
 #print(recetaPrinc)
 # Finalmente bucle de la aplicación
 
+
+
 root=tk.Tk()
 
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 root.iconbitmap('img\chef.ico')
 root.geometry('1000x600')
+
+
 
 
 #root.config(bg="red")
