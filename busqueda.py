@@ -30,7 +30,7 @@ class buscarReceta(ttk.Frame):
         self.combo1 = ttk.Combobox(self, textvariable=self.combo1_str,
                                    width=40)
         self.combo1.grid(row=0, column=2, padx=5, pady=5)
-        self.combo1["values"] = ("Nombre", "etiquetas","tiempo de preparacion","ingredientes")
+        self.combo1["values"] = ("Nombre", "etiquetas","tiempo de preparacion 'min'-'min'","ingredientes")
         self.combo1["state"] = "readonly"
         self.combo1.bind('<<ComboboxSelected>>', self.on_combo_changed)
 
@@ -44,7 +44,7 @@ class buscarReceta(ttk.Frame):
         username_entry = ttk.Entry(self,textvariable=self.nombreRE)
         username_entry.grid(column=2, row=0, sticky=tk.E, padx=5, pady=5)
         
-        ttk.Button(self, text="Buscar receta",command=self.tabla).grid(column=1,row=5)
+        ttk.Button(self, text="Buscar receta",command=self.tabla).grid(column=0,row=6)
 
         
 
@@ -55,6 +55,12 @@ class buscarReceta(ttk.Frame):
            
         elif self.combo1_str.get() == "etiquetas":
             self.cartel_str.set(2)
+        
+        elif self.combo1_str.get() == "tiempo de preparacion 'min'-'min'":
+            self.cartel_str.set(3)
+        
+        elif self.combo1_str.get() == "ingredientes":
+            self.cartel_str.set(4)
             
         
     def tabla(self):

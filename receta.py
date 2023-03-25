@@ -98,22 +98,32 @@ class Receta:
                         lisrecet.append(recetaD)
                     else:
                         print("que buscas pa")
-        return lisrecet
-        #     #return recetaD
-        # if op==2:
-        #       for receta in recetas:
-        #         if receta["etiquetas"]==entry:
-        #           recetaD=receta
-        #       #return recetaD
-
-        # if op==3:
-        #     for receta in recetas:
-        #        if receta["tiempoDePrep"]==entry:
-        #         recetaD=receta
-        #     #return recetaD
+            return lisrecet
         
-        # if op==4:
-        #     for receta in recetas:
+        if int(op)==2:
+            for receta in recetas:
+                listaDeEtiquetas=receta["etiquetas"]
+                for etiquetas in listaDeEtiquetas:
+                    if etiquetas==entry:
+                       lisrecet.append(receta)
+            
+            return lisrecet 
+        if int(op)==3:
+            entry=entry.split("-")
+            for receta in recetas:
+                if receta["tiempoDePrep"] in range (int(entry[0]),int(entry[1])):
+                   lisrecet.append(receta)
+            return lisrecet
+        
+        if int(op)==4:
+            ingredientes=entry.split(",")
+            for receta in recetas:
+                for ing in ingredientes:
+                    if ing in receta["listaDeIngredientes"]:
+                        if receta not in lisrecet:
+                            lisrecet.append(receta)
+            return lisrecet
+            
         #        if receta["listaDeIngredientes"]==entry:
         #         recetaD=receta
             #return recetaD
