@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk,messagebox
 from tkinter.filedialog import askopenfilename
-import receta
+import receta,ingrediente
 
 
 class AgregarReceta(ttk.Frame): 
@@ -9,6 +9,7 @@ class AgregarReceta(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.nombreR=tk.StringVar()
+        #self.ing=tk.Variable()
         self.ingredientesR=tk.StringVar()
         self.preparacionR=tk.StringVar()
         self.tiempoPrepR=tk.StringVar()
@@ -44,6 +45,18 @@ class AgregarReceta(ttk.Frame):
 
         password_entry = ttk.Entry(self,textvariable=self.ingredientesR)
         password_entry.grid(column=1, row=1, sticky=tk.E, padx=5, pady=5)
+
+
+        # ingredientes=self.ingredientesR.split(",")
+        # nombre=ingredientes[0]
+        # unidadDmedida=ingredientes[1]
+        # cantidad=ingredientes[2]
+
+        # ing=ingrediente.Ingrediente(nombre,unidadDmedida,cantidad)
+        
+
+
+
 
                # preparacion
         password_label = ttk.Label(self, text="preparacion:")
@@ -92,9 +105,12 @@ class AgregarReceta(ttk.Frame):
     def guardar_datos(self):
         nombre=self.nombreR.get()
         print(self.ingredientesR.get())
+
         ingredientes=self.ingredientesR.get()
         listaIngredientes=ingredientes.split(",")
-        print(listaIngredientes)
+        
+        #print(listaIngredientes)
+        
         preparacion=self.preparacionR.get()
         tiempoC=self.tiempoCoccR.get()
         tiempoP=self.tiempoPrepR.get()
