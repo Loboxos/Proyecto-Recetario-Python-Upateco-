@@ -2,7 +2,7 @@ import json
 import random
 
 class Receta:
-    def __init__(self,nombre,preparacion,tiempoPrep,tiempoCocc,fechaDeCreacion,etiquetas,esFavorita,imagen=None,ListaIngred=[]):
+    def __init__(self,nombre,preparacion,tiempoPrep,tiempoCocc,fechaDeCreacion,esFavorita,imagen=None,etiquetas=[],ListaIngred=[]):
         self.nombre = nombre
         self.ListaIngred = ListaIngred
         self.preparacion = preparacion
@@ -20,7 +20,8 @@ class Receta:
         "listaDeIngredientes":self.ListaIngred,
         "tiempoDePrep":self.tiempoPrep,
         "tiempoDeCocc":self.tiempoCocc,
-        "fechaDeCreacion":self.fechaDeCreacion
+        "fechaDeCreacion":self.fechaDeCreacion,
+        "imagen":self.imagen
          }
         
         with open("recetas.json",'r') as fo:
@@ -62,9 +63,6 @@ class Receta:
             #if recetas['nombre']==nombreReceta:
              #   print(recetas['nombre'])
         
-
-
-    
     def listaDeRecetas():
         with open("recetas.json")as fo:
             recetas=json.load(fo)
@@ -86,8 +84,39 @@ class Receta:
         return recetAzar
         #return recetas[random.choice(recetas)]
 
-    def buscarUnaReceta(self):
-        pass
-    
+    def buscarUnaReceta(op,entry):
+        with open("recetas.json")as fo:
+            recetas=json.load(fo)
+        lisrecet=[]
+        print("holaaaaaad")
+        if int(op)==1:
+            print("opcion 1")
+            for receta in recetas:
+                    if receta["nombre"]==entry:
+                        recetaD=receta
+                        print(recetaD)
+                        lisrecet.append(recetaD)
+                    else:
+                        print("que buscas pa")
+        return lisrecet
+        #     #return recetaD
+        # if op==2:
+        #       for receta in recetas:
+        #         if receta["etiquetas"]==entry:
+        #           recetaD=receta
+        #       #return recetaD
+
+        # if op==3:
+        #     for receta in recetas:
+        #        if receta["tiempoDePrep"]==entry:
+        #         recetaD=receta
+        #     #return recetaD
+        
+        # if op==4:
+        #     for receta in recetas:
+        #        if receta["listaDeIngredientes"]==entry:
+        #         recetaD=receta
+            #return recetaD
+        
     def __str__(self):
         return f"{self.nombre}\n{self.ListaIngred}\n{self.preparacion}\n"
