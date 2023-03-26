@@ -55,7 +55,6 @@ class App(ttk.Frame):
         
         comida=recetaPrinc['nombre']
         comida=comida.replace(" ","")
-        print("Linea58")
         rutaImg=recetaPrinc['imagen']
         self.imagen = tk.PhotoImage(file=rutaImg)
         ttk.Label(frame4, image=self.imagen,background="lightgreen").grid()
@@ -70,6 +69,8 @@ class App(ttk.Frame):
 
         # definimos 2 columnas 1: tabla, 2: barra de desplazamiento
        
+       
+       #no cambia si lo borramos
         frame5.columnconfigure(1, weight=1)
         frame5.columnconfigure(2, weight=1) # wight=0 no cambia de tamaño nunca
         frame5.rowconfigure(1, weight=1)
@@ -165,6 +166,7 @@ class App(ttk.Frame):
         # generar los datos artificiales
         contacts = []
         cantRecetas=len(receta.Receta.listaDeRecetas())
+        
         for x in receta.Receta.listaDeRecetas():
             nombre=x['nombre']
             ingredientes=x['listaDeIngredientes']
@@ -181,21 +183,10 @@ class App(ttk.Frame):
  
 
     def abrir_ventana(self):
-        # creamos la ventana secundaria
-        # como padre indicamos la ventana principal
         toplevel = tk.Toplevel(self.parent)
         # agregamos el frame (Secundaria) a la ventana (toplevel)
-        secundaria.Secundaria(toplevel).grid()
+        secundaria.Secundaria(toplevel).pack()
 
-
-
-
-        
-
-        
-   
-
-   
 
 
 root=tk.Tk()
@@ -204,7 +195,6 @@ root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 root.iconbitmap('img\chef.ico')
 #root.geometry('1400x900')
-
 
 
 

@@ -2,26 +2,27 @@ import json
 import random
 
 class Receta:
-    def __init__(self,nombre,preparacion,tiempoPrep,tiempoCocc,fechaDeCreacion,esFavorita,imagen=None,etiquetas=[],ListaIngred=[]):
+    def __init__(self,nombre,preparacion,tiempoPrep,tiempoCocc,fechaDeCreacion,esFavorita,listaIngred,imagen="",etiquetas=[]):
         self.nombre = nombre
-        self.ListaIngred = ListaIngred
+        self.listaIngred = listaIngred
         self.preparacion = preparacion
-        self.imagen =imagen
+        self.imagen =""
         self.tiempoPrep = tiempoPrep
         self.tiempoCocc = tiempoCocc
         self.fechaDeCreacion = fechaDeCreacion
         self.etiquetas = etiquetas
         self.esFavorita = esFavorita
-    
+
     def añadirUnaNuevaReceta(self):
         r1={
         "nombre":self.nombre,
         "preparacion":self.preparacion,
-        "listaDeIngredientes":self.ListaIngred,
+        "listaDeIngredientes":self.listaIngred,
         "tiempoDePrep":self.tiempoPrep,
         "tiempoDeCocc":self.tiempoCocc,
         "fechaDeCreacion":self.fechaDeCreacion,
         "imagen":self.imagen
+        
          }
         
         with open("recetas.json",'r') as fo:
@@ -43,6 +44,7 @@ class Receta:
                 print("receta no encontrada")
         with open("recetas.json", "w") as fo:
             json.dump(recetas, fo)
+
     def eliminarUnaReceta(nombreReceta):
         with open("recetas.json",'r') as fo:
             recetas = json.load(fo)
@@ -59,10 +61,7 @@ class Receta:
             
         with open("recetas.json", "w") as fo:
             json.dump(recetas, fo)
-            #nombreReceta="pizza"
-            #if recetas['nombre']==nombreReceta:
-             #   print(recetas['nombre'])
-        
+
     def listaDeRecetas():
         with open("recetas.json")as fo:
             recetas=json.load(fo)
@@ -75,14 +74,12 @@ class Receta:
             if receta["nombre"]==nombre:
                 recetaD=receta
         return recetaD
-        #return recetas[random.choice(recetas)]
-
+        
     def mostrarUnaRecetaDiaria():
         with open("recetas.json")as fo:
             recetas=json.load(fo)
         recetAzar=random.choice(recetas)
-        return recetAzar
-        #return recetas[random.choice(recetas)]
+        return recetAzar      
 
     def buscarUnaReceta(op,entry):
         with open("recetas.json")as fo:
@@ -119,14 +116,10 @@ class Receta:
             ingredientes=entry.split(",")
             for receta in recetas:
                 for ing in ingredientes:
-                    if ing in receta["listaDeIngredientes"]:
+                    if ing in receta["listaDeIngredientes"][0]:
                         if receta not in lisrecet:
                             lisrecet.append(receta)
             return lisrecet
-            
-        #        if receta["listaDeIngredientes"]==entry:
-        #         recetaD=receta
-            #return recetaD
-        
+              
     def __str__(self):
         return f"{self.nombre}\n{self.ListaIngred}\n{self.preparacion}\n"

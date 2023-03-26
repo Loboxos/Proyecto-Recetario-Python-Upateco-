@@ -1,14 +1,15 @@
 import tkinter as tk
 from tkinter import ttk,messagebox
 from tkinter.filedialog import askopenfilename
-import receta,ingrediente
-
+import receta,ingrediente,agregarIngrediente
+import listaDingred
 
 class AgregarReceta(ttk.Frame): 
  
     def __init__(self, parent):
         super().__init__(parent)
         self.nombreR=tk.StringVar()
+        self.parent=parent
         #self.ing=tk.Variable()
         self.ingredientesR=tk.StringVar()
         self.preparacionR=tk.StringVar()
@@ -43,20 +44,7 @@ class AgregarReceta(ttk.Frame):
         password_label = ttk.Label(self, text="Ingredientes:")
         password_label.grid(column=0, row=1, sticky=tk.W, padx=5, pady=5)
 
-        password_entry = ttk.Entry(self,textvariable=self.ingredientesR)
-        password_entry.grid(column=1, row=1, sticky=tk.E, padx=5, pady=5)
-
-
-        # ingredientes=self.ingredientesR.split(",")
-        # nombre=ingredientes[0]
-        # unidadDmedida=ingredientes[1]
-        # cantidad=ingredientes[2]
-
-        # ing=ingrediente.Ingrediente(nombre,unidadDmedida,cantidad)
-        
-
-
-
+        ttk.Button(self,text="agregar ingredientes",command=self.tablaConEntrada).grid(column=1, row=1, sticky=tk.E)
 
                # preparacion
         password_label = ttk.Label(self, text="preparacion:")
@@ -93,7 +81,13 @@ class AgregarReceta(ttk.Frame):
         # login button
         login_button = ttk.Button(self, text="Agregar",command=self.guardar_datos)
         login_button.grid(column=1, row=6, sticky=tk.E, padx=5, pady=5)
-     
+    
+    def tablaConEntrada(self):
+        toplevel = tk.Toplevel(self.parent)
+        # agregamos el frame (Secundaria) a la ventana (toplevel)
+        agregarIngrediente.AgregarIngrediente(toplevel).pack()
+
+        
     def on_btn_abrir_pressed(self):
         tipos = (('Archivos de texto', '*.txt'),
                  ('Todos los archivos', '*.*'))
@@ -103,18 +97,33 @@ class AgregarReceta(ttk.Frame):
 
 
     def guardar_datos(self):
-        nombre=self.nombreR.get()
-        print(self.ingredientesR.get())
-
-        ingredientes=self.ingredientesR.get()
-        listaIngredientes=ingredientes.split(",")
+        listaIngr=agregarIngrediente.listaDingredi
+        for ingred in listaIngr:
+            ing=ingrediente.Ingrediente(ingred[0],ingred[1],ingred[2])
+        listaFinalxd=listaDingred.ListDingredientes(listaIngr)
         
-        #print(listaIngredientes)
+        nombre=self.nombreR.get()        
+        print("linea103")
+        
+        #print(ingredientes)
+        
+        #print(self.ingredientesR.get())
+
+        #ingredientes=self.ingredientesR.get()
+        #listaIngredientes=ingredientes.split(",")
+        
+        #listIngredientes=[]
+        #nombre=listaIngredientes[0]
+        #unidadDmedida=listaIngredientes[1]
+        #cantidad=listaIngredientes[2]
+        
+        #ing=ingrediente.Ingrediente(nombre,unidadDmedida,cantidad)
+        #listIngredientes.append(ing)
         
         preparacion=self.preparacionR.get()
         tiempoC=self.tiempoCoccR.get()
         tiempoP=self.tiempoPrepR.get()
         imagen=self.imagenR
         
-        recetas=receta.Receta(nombre,preparacion,tiempoC,tiempoP,"10/05/2001","rico,nutritivo",True,imagen,listaIngredientes)
+        recetas=receta.Receta(nombre,preparacion,tiempoP,tiempoC,"10/05/2001",True,listaIngr,imagen,"rico,nutritivo")
         recetas.añadirUnaNuevaReceta()

@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk,messagebox
 from tkinter.filedialog import askopenfilename
-import receta
+import receta,agregarIngrediente,ingrediente,listaDingred
 
 
 
@@ -17,6 +17,7 @@ class ModificarReceta(ttk.Frame):
         self.preparacionNuevo=tk.StringVar()
         self.tiempoPropRNuevo=tk.StringVar()
         self.tiempoCoccRnuevo=tk.StringVar()
+        self.parent=parent
         # self.ingredientesR=tk.StringVar()
         # self.preparacionR=tk.StringVar()
         # self.tiempoPrepR=tk.StringVar()
@@ -70,8 +71,9 @@ class ModificarReceta(ttk.Frame):
         username_label = ttk.Label(frame2, text="Ingredientes nuevos")
         username_label.grid(column=1, row=2, sticky=tk.W, padx=5, pady=5)
 
-        username_entry = ttk.Entry(frame2,textvariable=self.ingredienteNuevo)
-        username_entry.grid(column=2, row=2, sticky=tk.E, padx=5, pady=5)
+        ttk.Button(frame2, text="agregar",command=self.tablaConEntrada).grid(column=2, row=2, sticky=tk.W)
+        # username_entry = ttk.Entry(frame2,textvariable=self.ingredienteNuevo)
+        #username_entry.grid(column=2, row=2, sticky=tk.E, padx=5, pady=5)
 
         username_label = ttk.Label(frame2, text="preparacion")
         username_label.grid(column=1, row=5, sticky=tk.W, padx=5, pady=5)
@@ -89,12 +91,22 @@ class ModificarReceta(ttk.Frame):
         #messagebox.showinfo(title="Actualizacion",message="se elimino la receta correctamente")
         login_button.grid(column=1, row=5, sticky=tk.E, padx=5, pady=5)
 
+    def tablaConEntrada(self):
+        toplevel = tk.Toplevel(self.parent)
+        # agregamos el frame (Secundaria) a la ventana (toplevel)
+        agregarIngrediente.AgregarIngrediente(toplevel).pack()
 
     def guardar_datos(self):
         nombreRe=self.nombreRE.get()
         nombreNuevo=self.nombreNuevo.get()
-        ingredientes=self.ingredienteNuevo.get()
-        listaIngredientes=ingredientes.split(",")
+
+        listaIngr=agregarIngrediente.listaDingredi
+        for ingred in listaIngr:
+            ing=ingrediente.Ingrediente(ingred[0],ingred[1],ingred[2])
+
+        listaFinalxd=listaDingred.ListDingredientes(listaIngr)
+        
         preparacion=self.preparacionNuevo.get()
-        nombreRe=nombreRe.lower()        
-        receta.Receta.modificarUnaReceta(nombreRe,nombreNuevo,listaIngredientes,preparacion)
+        nombreRe=nombreRe.lower()
+
+        receta.Receta.modificarUnaReceta(nombreRe,nombreNuevo,listaIngr,preparacion)
