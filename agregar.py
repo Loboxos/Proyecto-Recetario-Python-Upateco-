@@ -3,6 +3,7 @@ from tkinter import ttk,messagebox
 from tkinter.filedialog import askopenfilename
 import receta,ingrediente,agregarIngrediente
 import listaDingred
+from datetime import datetime
 
 class AgregarReceta(ttk.Frame): 
  
@@ -94,7 +95,7 @@ class AgregarReceta(ttk.Frame):
 
 
     def mensaje(self):
-        messagebox.showinfo("Aviso","Se modifico la receta correctamente")
+        messagebox.showinfo("Aviso","Se Agrego la receta correctamente")
 
     def guardar_datos(self):
         listaIngr=agregarIngrediente.listaDingredi
@@ -111,6 +112,8 @@ class AgregarReceta(ttk.Frame):
 
         etiquetas=self.etiquetasR.get()
         etiquetas=etiquetas.split(",")
+
+        fecha = datetime.now()
         
-        recetas=receta.Receta(nombre,preparacion,tiempoP,tiempoC,"10/05/2001",True,listaIngr,imagen,etiquetas)
+        recetas=receta.Receta(nombre,preparacion,tiempoP,tiempoC,str(fecha),True,listaIngr,imagen,etiquetas)
         recetas.añadirUnaNuevaReceta()

@@ -49,14 +49,13 @@ class Receta:
     def eliminarUnaReceta(nombreReceta):
         with open("recetas.json",'r') as fo:
             recetas = json.load(fo)
-            #print(recetas)
+           
             print("linea 40")
             for rec in recetas:
                if rec["nombre"]==nombreReceta:
                 recetas.remove(rec)
                 print("receta eliminada")
                 
-                #print(recetas)
                else:
                 print("receta no encontrada")
             
