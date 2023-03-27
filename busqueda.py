@@ -9,11 +9,16 @@ class buscarReceta(ttk.Frame):
         super().__init__(parent)
         parent.title("Buscar una Receta")
         parent.iconbitmap('img\chef.ico')
-        parent.geometry("1200x400")
+        #parent.geometry("1200x400")
         parent.resizable(0, 0)
+
+        parent.configure(background="#CCEEFF")
+
+        
+        
         self.nombreRE=tk.StringVar()
         self.combo1_str = tk.StringVar()
-       
+        
         
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=5)
@@ -23,6 +28,7 @@ class buscarReceta(ttk.Frame):
 
     def create_widgets(self):
         # Ingresar comida
+       
         nombre_label = ttk.Label(self, text="Buscar nombre por:")
         nombre_label.grid(column=1 , row=0, sticky=tk.W, padx=5, pady=5)
 

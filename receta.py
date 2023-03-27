@@ -85,7 +85,7 @@ class Receta:
         with open("recetas.json")as fo:
             recetas=json.load(fo)
         lisrecet=[]
-        print("holaaaaaad")
+        #print("holaaaaaad")
         if int(op)==1:
             print("opcion 1")
             for receta in recetas:
@@ -94,7 +94,7 @@ class Receta:
                         print(recetaD)
                         lisrecet.append(recetaD)
                     else:
-                        print("que buscas pa")
+                        print("no se encuentra la receta")
             return lisrecet
         
         if int(op)==2:
