@@ -9,22 +9,22 @@ class buscarReceta(ttk.Frame):
         super().__init__(parent)
         parent.title("Buscar una Receta")
         parent.iconbitmap('img\chef.ico')
-        self.nombreRE=tk.StringVar()
-       #self.opcion=tk.StringVar()
-        #parent.resizable(False, False)
-        self.combo1_str = tk.StringVar()
-       
         parent.geometry("1200x400")
         parent.resizable(0, 0)
+        self.nombreRE=tk.StringVar()
+        self.combo1_str = tk.StringVar()
+       
+        
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=5)
+        
         self.create_widgets()
         ttk.Button(self,text="cerrar",command=parent.destroy).grid(column=0,row=5)
 
     def create_widgets(self):
         # Ingresar comida
-        username_label = ttk.Label(self, text="Buscar nombre por:")
-        username_label.grid(column=1 , row=0, sticky=tk.W, padx=5, pady=5)
+        nombre_label = ttk.Label(self, text="Buscar nombre por:")
+        nombre_label.grid(column=1 , row=0, sticky=tk.W, padx=5, pady=5)
 
         
         self.combo1 = ttk.Combobox(self, textvariable=self.combo1_str,
@@ -41,13 +41,10 @@ class buscarReceta(ttk.Frame):
                                 width=40)
         self.cartel.grid(row=0, column=3, padx=5, pady=5)
       
-        username_entry = ttk.Entry(self,textvariable=self.nombreRE)
-        username_entry.grid(column=2, row=0, sticky=tk.E, padx=5, pady=5)
+        nombre_entry = ttk.Entry(self,textvariable=self.nombreRE)
+        nombre_entry.grid(column=2, row=0, sticky=tk.E, padx=5, pady=5)
         
         ttk.Button(self, text="Buscar receta",command=self.tabla).grid(column=0,row=6)
-
-        
-
 
     def on_combo_changed(self,evento):
         if self.combo1_str.get() == "Nombre":
@@ -62,7 +59,6 @@ class buscarReceta(ttk.Frame):
         elif self.combo1_str.get() == "ingredientes":
             self.cartel_str.set(4)
             
-        
     def tabla(self):
         
         nombre=self.nombreRE.get()
@@ -103,14 +99,9 @@ class buscarReceta(ttk.Frame):
         frame5.tabla.heading('Tpreparacion', text='Tpreparacion')
         frame5.tabla.heading('Tcoccion', text='Tcoccion')
  
-        #self.frame5=frame5
-        
-        # generar los datos artificiales
         contacts = []
-        #cantRecetas=len(receta.Receta.listaDeRecetas())
         lisrec=receta.Receta.buscarUnaReceta(opcion,nombre)
-        
-
+    
         for x in lisrec:
 
             nombre=x['nombre']

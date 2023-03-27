@@ -1,18 +1,14 @@
 import tkinter as tk
-from tkinter import ttk,messagebox
-from tkinter.filedialog import askopenfilename
-import receta,busqueda,agregar,modificar,eliminar
+from tkinter import ttk
+import busqueda,agregar,modificar,eliminar
 
 
-class Secundaria(ttk.Frame):
+class Menu(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
         self.parent = parent
         parent.title("Mas opciones")
-        #parent.geometry("450x200+180+100")
         self.grid(sticky=(tk.N, tk.S, tk.E, tk.W))
-        parent.columnconfigure(0, weight=1)
-        parent.rowconfigure(0, weight=1)
         parent.iconbitmap('img\chef.ico')
         parent.resizable(False, False)
 
@@ -35,9 +31,6 @@ class Secundaria(ttk.Frame):
         eliminar.EliminarReceta(toplevel).grid()
 
     def abrir_ventana2(self):
-        # creamos la ventana secundaria
-        # como padre indicamos la ventana principal
         toplevel = tk.Toplevel(self.parent)
-        # agregamos el frame (Secundaria) a la ventana (toplevel)
         agregar.AgregarReceta(toplevel).grid()
         

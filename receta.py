@@ -6,7 +6,7 @@ class Receta:
         self.nombre = nombre
         self.listaIngred = listaIngred
         self.preparacion = preparacion
-        self.imagen =""
+        self.imagen = imagen
         self.tiempoPrep = tiempoPrep
         self.tiempoCocc = tiempoCocc
         self.fechaDeCreacion = fechaDeCreacion
@@ -21,7 +21,8 @@ class Receta:
         "tiempoDePrep":self.tiempoPrep,
         "tiempoDeCocc":self.tiempoCocc,
         "fechaDeCreacion":self.fechaDeCreacion,
-        "imagen":self.imagen
+        "imagen":self.imagen,
+        "etiquetas":self.etiquetas
         
          }
         
@@ -122,4 +123,4 @@ class Receta:
             return lisrecet
               
     def __str__(self):
-        return f"{self.nombre}\n{self.ListaIngred}\n{self.preparacion}\n"
+        return f"{self.nombre}\n{self.listaIngred}\n{self.preparacion}\n"

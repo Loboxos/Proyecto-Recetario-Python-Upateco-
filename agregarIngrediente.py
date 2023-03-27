@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkinter.filedialog import askopenfilename
-import receta,ingrediente,listaDingred
+
 
 
 class AgregarIngrediente(ttk.Frame):
@@ -12,15 +12,13 @@ class AgregarIngrediente(ttk.Frame):
         parent.iconbitmap('img\chef.ico')
         # parent.resizable(False, False)
         parent.geometry("500x500")
-        #parent.resizable(0, 0)
-        self.parent = parent
         
+        self.parent = parent
         self.nombre=tk.StringVar()
         self.unidadDmedida=tk.StringVar()
         self.cantidad=tk.StringVar()
         
         set = ttk.Treeview(parent)
-        
         set.pack()
         self.set=set
         datos=[]
@@ -43,10 +41,6 @@ class AgregarIngrediente(ttk.Frame):
         
         global count
         count = 0
-        
-      
-
-        #Input_frame = ttk.Frame(parent).pack()
 
 
         nombre = ttk.Label(self, text="nombre")
@@ -70,11 +64,14 @@ class AgregarIngrediente(ttk.Frame):
         self.nombre_entry=nombre_entry
         self.unidadDmedida_entry=unidadDmedida_entry
         self.cantidad_entry=cantidad_entry
-        ttk.Button(self, text="Input Record",command=self.input_record).grid(column=1,row=5)
+        ttk.Button(self, text="cargar",command=self.input_record).grid(column=1,row=5)
         ttk.Button(self,text="cerrar",command=parent.destroy).grid(column=1,row=7)
-        ttk.Button(self,text="guardar",command=self.guardar).grid(column=1,row=6)
+        ttk.Button(self,text="guardar",command=lambda:[self.guardar(),self.mensaje()]).grid(column=1,row=6)
         
     global listaDingredi
+    
+    def mensaje(self):
+        messagebox.showinfo("Aviso","Ingredientes agregados")
     
     def guardar(self):
         global listaDingredi
@@ -84,10 +81,7 @@ class AgregarIngrediente(ttk.Frame):
         for x in self.set.get_children():
             datos=self.set.item(x)["values"]
             listaDingredi.append(datos)
-        
-        #ing.guardar(listaDingred)
-        #print(listaDingred)
-        
+
     def input_record(self):
         global count
         self.set.insert(parent='',index='end',iid = count,text='',values=(self.nombre.get(),self.unidadDmedida.get(),self.cantidad.get()))
